@@ -6,7 +6,7 @@ import threading
 import sys
 from datetime import datetime
 
-
+#change
 
 ser = serial.Serial('COM4', 9600, timeout=1)
 
