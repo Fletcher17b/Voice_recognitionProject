@@ -54,10 +54,6 @@ for intent, phrases in intents.items():
         intent_embeddings.append(transformer_model.encode(phrase))
         intent_labels.append(intent)
 
-#wav = preprocess_wav("mario_sample.wav") 
-#embedding = encoder.embed_utterance(wav)
-#np.save("mario_embedding.npy", embedding)
-
 def get_intent(user_phrase):
     embedding = transformer_model.encode(user_phrase)
     similarities = util.cos_sim(embedding, intent_embeddings)[0]
@@ -77,11 +73,6 @@ def parse_command(intent,text):
         print(f"Sent: {command}")
         handle_command(command.strip())
 
-""" known_speakers = {
-    "Mario": np.load("mario_embedding.npy"),
-    # "Ana": np.load("ana_embedding.npy")
-}
- """
 def audio_callback(indata, frames, time_info, status):
     if status:
         print(status, file=sys.stderr)
@@ -128,10 +119,9 @@ stream = sd.InputStream(device=device_index, samplerate=samplerate, channels=1, 
 with stream:
     buffer = np.empty((0,), dtype=np.float32)
 
-    ##########
-    ambient_volume = measure_ambient_noise()
-    volume_threshold = ambient_volume * 2.5    
-    no_speech_threshold = 0.6 if ambient_volume < 0.01 else 0.75
+#    ambient_volume = measure_ambient_noise()
+#    volume_threshold = ambient_volume * 2.5    
+#    no_speech_threshold = 0.6 if ambient_volume < 0.01 else 0.75
 
     print("🎧 Listening...")
     while True:
@@ -148,10 +138,9 @@ with stream:
             for segment in segments:
                 text = segment.text.strip().lower()
                 print(f"🗣️ Transcript: {text}")
+                handle_command(text)
 
-                #handle_command(text)
-
-                if not text:
+                """ if not text:
                     continue
 
                 if np.max(np.abs(segment_audio)) < volume_threshold:
@@ -176,7 +165,7 @@ with stream:
                 if confidence > 0.6:
                     print(f"🤖 Intent: {intent} (confianza: {confidence:.2f})")
                     parse_command(intent,text)
-                    wake_override = False
+                    wake_override = False """
 
 
                 

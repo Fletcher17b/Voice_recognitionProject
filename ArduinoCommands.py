@@ -8,18 +8,6 @@ from datetime import datetime
 
 from utility import is_similar_command
 
-""" 
-import difflib
-
-def is_similar_command(text, target, threshold=0.75):
-    ratio = difflib.SequenceMatcher(None, text, target).ratio()
-    return ratio >= threshold
-
-"""
-
-
-#presentation_command ='"C:\Program Files\LibreOffice\program\soffice.exe" --show Resoluciondepset6.pptx'
-
 presentation_process = None
 
 command_lock = threading.Lock()
@@ -88,28 +76,12 @@ def handle_command(text):
     print("Recieved:", text)
     log_file.write(log_line + "\n")
     log_file.flush()
-    """ 
-    if not command_lock.acquire(blocking=False):
-        print("⚠️ Command ignored: another command is running.")
-        return """
-
-    if text =="LIGHT_OFF":
-        print("👋 LED OFF")
-        ser.write(b'LIGHT_OFF\n') 
-        return   
-
-    if text=="LIGHT_ON":
-        print("LED ON")
-        ser.write(b'LIGHT_ON\n')
-        return
     
     if is_similar_command(text, LEDON_COMMAND):
         print("👋 LED ON")
-        #log_file.write(f"[{timestamp}] SYSTEM: LED TURNED ON.\n")
         ser.write(b'LIGHT_ON\n')
     elif is_similar_command(text, LEDOFF_COMMAND):
         print("👋 LED OFF")
-        #log_file.write(f"[{timestamp}] SYSTEM: LED TURNED OFF.\n")
         ser.write(b'LIGHT_OFF\n')
     elif is_similar_command(text,FANON_COMMAND):
         print()
