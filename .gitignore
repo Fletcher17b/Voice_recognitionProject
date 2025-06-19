@@ -1,0 +1,5 @@
+*.pptx
+*.txt
+
+/__pycache__
+/AudioSamples
